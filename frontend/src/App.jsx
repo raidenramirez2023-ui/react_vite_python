@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react';
 import Header from './components/layout/Header';
-import Navigation from './components/layout/Navigation';  // ← Change to lowercase
-import Footer from './components/layout/Footer';          // ← Change to lowercase
-import Dashboard from './components/Dashboard/Dashboard';
+import Navigation from './components/layout/Navigation';
+import Footer from './components/layout/Footer';
+import Dashboard from './components/dashboard/Dashboard';
 import Analytics from './components/Analytics/Analytics';
 import Announcements from './components/Announcements/Announcements';
 import BillCalculator from './components/Calculator/BillCalculator';
 import Services from './components/Services/Services';
 import Contact from './components/Contact/Contact';
 import About from './components/About/About';
-
-// Rest of your code...
 
 // API URL - Use environment variable or fallback to localhost
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
