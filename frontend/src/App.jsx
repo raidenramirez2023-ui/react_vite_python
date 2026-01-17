@@ -10,6 +10,9 @@ import Services from './components/Services/Services';
 import Contact from './components/Contact/Contact';
 import About from './components/About/About';
 
+// API URL - Use environment variable or fallback to localhost
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export default function WaterDistrictApp() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -42,20 +45,28 @@ export default function WaterDistrictApp() {
 
   const fetchAnnouncements = async () => {
     try {
-      // Using sample data
+      const response = await fetch(`${API_URL}/api/announcements`);
+      const data = await response.json();
+      setAnnouncements(data);
+    } catch (error) {
+      console.error('Error fetching announcements:', error);
+      // Fallback to sample data if API fails
       setAnnouncements([
         { id: 1, title: "Scheduled Water Interruption", content: "Water service will be interrupted on Jan 20, 2026 from 8:00 AM to 4:00 PM for system maintenance in Zone 3.", date: "2026-01-15", type: "maintenance", priority: "high" },
         { id: 2, title: "New Payment Center Opening", content: "A new payment center opens Jan 25, 2026 at Santa Cruz Town Center. Enjoy extended hours until 7:00 PM.", date: "2026-01-10", type: "news", priority: "medium" },
         { id: 3, title: "Water Quality Report Available", content: "Annual water quality report for 2025 is now available for download. Meeting all safety standards.", date: "2026-01-05", type: "info", priority: "low" }
       ]);
-    } catch (error) {
-      console.error('Error fetching announcements:', error);
     }
   };
 
   const fetchStats = async () => {
     try {
-      // Using sample data
+      const response = await fetch(`${API_URL}/api/stats`);
+      const data = await response.json();
+      setStats(data);
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+      // Fallback to sample data if API fails
       setStats({
         totalCustomers: '15,842',
         dailyConsumption: '2.5M',
@@ -66,8 +77,6 @@ export default function WaterDistrictApp() {
         system_efficiency: '92%',
         response_time: '2.8 hrs'
       });
-    } catch (error) {
-      console.error('Error fetching stats:', error);
     }
   };
 
@@ -86,9 +95,9 @@ export default function WaterDistrictApp() {
       case 'announcements':
         return <Announcements announcements={announcements} />;
       case 'calculator':
-        return <BillCalculator />;
+        return <BillCalculator apiUrl={API_URL} />;
       case 'services':
-        return <Services />;
+        return <Services apiUrl={API_URL} />;
       case 'contact':
         return <Contact />;
       case 'about':
